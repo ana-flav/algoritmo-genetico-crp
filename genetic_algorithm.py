@@ -1,3 +1,5 @@
+from matplotlib import pyplot as plt
+
 from individual import Individual
 import random
 
@@ -24,7 +26,8 @@ class GeneticAlgorithm:
         self.EN = EN  # Número de evoluções
         self.SP = SP  # Tamanho do torneio
         self.GN = CN * 10  # Ajuste conforme o artigo manda
-        self.population = []  
+        self.population = []
+        self.variances = []
 
     def initialize_population(self):
         self.population = [Individual(self.GN, self.S) for _ in range(self.PS)]
@@ -65,7 +68,11 @@ class GeneticAlgorithm:
 
         for _ in range(self.EN):
             P_estrela = []  
-            crossN = (self.PS * self.SP) // 2 
+            crossN = (self.PS * self.SP) // 2
+
+            fitness_values = [ind.fitness for ind in self.population]
+            variance = self.calculate_variance(fitness_values)
+            self.variances.append(variance)
 
             for i in range(crossN):
                 selected_parents = self.selection() 
@@ -82,4 +89,20 @@ class GeneticAlgorithm:
 
         best_individual = min(self.population, key=lambda ind: ind.fitness)
 
+        self.plot_variance()
+
         return best_individual.chromosome, best_individual.fitness
+
+    def calculate_variance(self, fitness_values):
+        # variância populacional
+        mean = sum(fitness_values) / len(fitness_values)
+        variance = sum((x - mean) ** 2 for x in fitness_values) / len(fitness_values)
+        return variance
+
+    def plot_variance(self):
+        plt.plot(range(1, self.EN + 1), self.variances)
+        plt.title('Variância de Fitness ao Longo das Gerações')
+        plt.xlabel('Geração')
+        plt.ylabel('Variância de Fitness')
+        plt.grid()
+        plt.show()
