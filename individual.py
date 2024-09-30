@@ -51,5 +51,4 @@ class Individual:
         self.fitness = RN
         # print(f"Fitness calculado: {RN}")
         return RN  # Retornar o número de relocations
-
-        return RN  
+ 
