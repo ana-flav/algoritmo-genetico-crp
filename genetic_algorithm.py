@@ -3,6 +3,18 @@ import random
 
 class GeneticAlgorithm:
     def __init__(self, T, S, CN, YB, PS, MP, EN, SP):
+        """
+        :param T: Número de tiers
+        :param S: Número de stacks
+        :param CN: Número de contêineres
+        :param YB: Matriz Yard Bay
+        :param PS: Tamanho da população
+        :param MP: Taxa de mutação
+        :param EN: Número de evoluções
+        :param SP: Tamanho do torneio
+        :GN: Ajuste conforme o artigo manda, tamanho do cromossomo
+        :population: vetor de população
+        """
         self.T = T  # Número de tiers
         self.S = S  # Número de stacks
         self.CN = CN  # Número de contêineres
@@ -28,7 +40,9 @@ class GeneticAlgorithm:
             best_individual = min(tournament, key=lambda ind: ind.fitness)
             selected.append(best_individual)
         return selected
-
+    def elitism(self):
+        best_individual = min(self.population, key=lambda ind: ind.fitness)
+        return best_individual
     def crossover(self, parent1, parent2):
         crossPoint = random.randint(1, self.GN - 2)
         child1_chromosome = parent1.chromosome[:crossPoint] + parent2.chromosome[crossPoint:]
@@ -58,7 +72,8 @@ class GeneticAlgorithm:
                 C1_new, C2_new = self.crossover(selected_parents[0], selected_parents[1]) 
                 P_estrela.append(C1_new)
                 P_estrela.append(C2_new)
-
+            best = self.elitism()
+            P_estrela.append(best)
             for i in range(self.PS):
                 self.mutate(P_estrela[i])
 
@@ -66,6 +81,5 @@ class GeneticAlgorithm:
             self.evaluate_population()
 
         best_individual = min(self.population, key=lambda ind: ind.fitness)
-    
 
         return best_individual.chromosome, best_individual.fitness
