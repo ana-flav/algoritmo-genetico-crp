@@ -13,37 +13,37 @@ def main():
     PS = 150  # Tamanho da população
     MP = 0.05  # Taxa de mutação
     EN = 25  # Número de evoluções
-    SP = 15  # Tamanho do torneio
+    SP = 10  # Tamanho do torneio
 
-    # YB = [
-    # [13, 3, 12, 16, 0],
-    # [1, 0, 10, 2, 12],
-    # [11, 0, 14, 10, 12],
-    # [7, 19, 20, 0, 11],
-    # [8, 12, 19, 10, 0]
-    # ]
+    YB = [
+        [4, 18, 19, 10, 0],
+        [2, 0, 12, 13, 9],
+        [6, 11, 21, 15, 0],
+        [0, 17, 3, 14, 8],
+        [1, 0, 0, 0, 0]
+    ]
 
-    YB = [[0] * S for _ in range(T)]
-
-    valores_unicos = list(range(1, CN + 1))
-
-    random.shuffle(valores_unicos)
-
-    indice = 0
-    for t in range(T):
-        for s in range(S):
-            if indice < len(valores_unicos):
-                YB[t][s] = valores_unicos[indice]
-                indice += 1
-
-    for i, row in enumerate(YB):
-        # Verifica se a linha já tem um zero
-        if 0 not in row:
-            a = random.randint(0, S - 1)
-            row[a] = 0
-
-    for linha in YB:
-        print(linha)
+    # YB = [[0] * S for _ in range(T)]
+    #
+    # valores_unicos = list(range(1, CN + 1))
+    #
+    # random.shuffle(valores_unicos)
+    #
+    # indice = 0
+    # for t in range(T):
+    #     for s in range(S):
+    #         if indice < len(valores_unicos):
+    #             YB[t][s] = valores_unicos[indice]
+    #             indice += 1
+    #
+    # for i, row in enumerate(YB):
+    #     # Verifica se a linha já tem um zero
+    #     if 0 not in row:
+    #         a = random.randint(0, S - 1)
+    #         row[a] = 0
+    #
+    # for linha in YB:
+    #     print(linha)
 
     ga = GeneticAlgorithm(T, S, CN, YB, PS, MP, EN, SP)
     chromosome, fitness = ga.run()

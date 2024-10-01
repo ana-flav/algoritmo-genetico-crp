@@ -70,34 +70,34 @@ class GeneticAlgorithm:
             P_estrela = []  
             crossN = (self.PS * self.SP) // 2
 
-            fitness_values = [ind.fitness for ind in self.population]
-            variance = self.calculate_variance(fitness_values)
-            self.variances.append(variance)
+            # fitness_values = [ind.fitness for ind in self.population]
+            # variance = self.calculate_variance(fitness_values)
+            # self.variances.append(variance)
 
             for i in range(crossN):
                 selected_parents = self.selection() 
                 C1_new, C2_new = self.crossover(selected_parents[0], selected_parents[1]) 
                 P_estrela.append(C1_new)
                 P_estrela.append(C2_new)
-            best = self.elitism()
-            P_estrela.append(best)
+            # best = self.elitism()
+            # P_estrela.append(best)
             for i in range(self.PS):
                 self.mutate(P_estrela[i])
 
             self.population = P_estrela
             self.evaluate_population()
 
-        best_individual = min(self.population, key=lambda ind: ind.fitness)
-
+            best_individual = min(self.population, key=lambda ind: ind.fitness)
+            self.variances.append(best_individual.fitness)
         self.plot_variance()
 
         return best_individual.chromosome, best_individual.fitness
 
-    def calculate_variance(self, fitness_values):
-        # variância populacional
-        mean = sum(fitness_values) / len(fitness_values)
-        variance = sum((x - mean) ** 2 for x in fitness_values) / len(fitness_values)
-        return variance
+    # def calculate_variance(self, fitness_values):
+    #     # variância populacional
+    #     mean = sum(fitness_values) / len(fitness_values)
+    #     variance = sum((x - mean) ** 2 for x in fitness_values) / len(fitness_values)
+    #     return variance
 
     def plot_variance(self):
         plt.plot(range(1, self.EN + 1), self.variances)
