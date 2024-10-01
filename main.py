@@ -16,22 +16,29 @@ def main():
     SP = 15  # Tamanho do torneio
 
     # YB = [
-    #     [1, 0, 20, 50, 53, 49],
-    #     [5, 0, 6, 7, 8, 9],
-    #     [0, 1, 2, 0, 3, 4]
+    # [13, 3, 12, 16, 0],
+    # [1, 0, 10, 2, 12],
+    # [11, 0, 14, 10, 12],
+    # [7, 19, 20, 0, 11],
+    # [8, 12, 19, 10, 0]
     # ]
 
     YB = [[0] * S for _ in range(T)]
 
+    valores_unicos = list(range(1, CN + 1))
+
+    random.shuffle(valores_unicos)
+
+    indice = 0
     for t in range(T):
         for s in range(S):
-            temp = random.randint(0, CN)
-            YB[t][s] = temp
+            if indice < len(valores_unicos):
+                YB[t][s] = valores_unicos[indice]
+                indice += 1
 
     for i, row in enumerate(YB):
-        if 0 in row:
-            pass
-        else:
+        # Verifica se a linha já tem um zero
+        if 0 not in row:
             a = random.randint(0, S - 1)
             row[a] = 0
 
