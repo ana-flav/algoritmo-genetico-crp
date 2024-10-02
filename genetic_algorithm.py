@@ -40,9 +40,11 @@ class GeneticAlgorithm:
             best_individual = min(tournament, key=lambda ind: ind.fitness)
             selected.append(best_individual)
         return selected
+        
     def elitism(self):
         best_individual = min(self.population, key=lambda ind: ind.fitness)
         return best_individual
+        
     def crossover(self, parent1, parent2):
         crossPoint = random.randint(1, self.GN - 2)
         child1_chromosome = parent1.chromosome[:crossPoint] + parent2.chromosome[crossPoint:]
