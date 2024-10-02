@@ -91,7 +91,8 @@ class GeneticAlgorithm:
             self.best_individuals_by_gen.append(best_individual.fitness)
         # self.plot_variance()
 
-        return best_individual.chromosome, best_individual.fitness, self.best_individuals_by_gen
+        # return best_individual.chromosome, best_individual.fitness, self.best_individuals_by_gen
+        return self.best_individuals_by_gen
 
     # def calculate_variance(self, fitness_values):
     #     # variância populacional
@@ -99,10 +100,4 @@ class GeneticAlgorithm:
     #     variance = sum((x - mean) ** 2 for x in fitness_values) / len(fitness_values)
     #     return variance
 
-    # def plot_variance(self):
-    #     plt.plot(range(1, self.EN + 1), self.variances)
-    #     plt.title('Variância de Fitness ao Longo das Gerações')
-    #     plt.xlabel('Geração')
-    #     plt.ylabel('Variância de Fitness')
-    #     plt.grid()
-    #     plt.show()
+  
