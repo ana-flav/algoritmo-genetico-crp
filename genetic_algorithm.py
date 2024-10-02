@@ -27,7 +27,7 @@ class GeneticAlgorithm:
         self.SP = SP  # Tamanho do torneio
         self.GN = CN * 10  # Ajuste conforme o artigo manda
         self.population = []
-        self.variances = []
+        self.best_individuals_by_gen = [] # Melhores (top 1) indivíduos por geração
 
     def initialize_population(self):
         self.population = [Individual(self.GN, self.S) for _ in range(self.PS)]
@@ -88,10 +88,10 @@ class GeneticAlgorithm:
             self.evaluate_population()
 
             best_individual = min(self.population, key=lambda ind: ind.fitness)
-            self.variances.append(best_individual.fitness)
-        self.plot_variance()
+            self.best_individuals_by_gen.append(best_individual.fitness)
+        # self.plot_variance()
 
-        return best_individual.chromosome, best_individual.fitness
+        return best_individual.chromosome, best_individual.fitness, self.best_individuals_by_gen
 
     # def calculate_variance(self, fitness_values):
     #     # variância populacional
@@ -99,10 +99,10 @@ class GeneticAlgorithm:
     #     variance = sum((x - mean) ** 2 for x in fitness_values) / len(fitness_values)
     #     return variance
 
-    def plot_variance(self):
-        plt.plot(range(1, self.EN + 1), self.variances)
-        plt.title('Variância de Fitness ao Longo das Gerações')
-        plt.xlabel('Geração')
-        plt.ylabel('Variância de Fitness')
-        plt.grid()
-        plt.show()
+    # def plot_variance(self):
+    #     plt.plot(range(1, self.EN + 1), self.variances)
+    #     plt.title('Variância de Fitness ao Longo das Gerações')
+    #     plt.xlabel('Geração')
+    #     plt.ylabel('Variância de Fitness')
+    #     plt.grid()
+    #     plt.show()

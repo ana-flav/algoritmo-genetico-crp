@@ -1,56 +1,61 @@
-import random
-
+import time
+import matplotlib.pyplot as plt
 from genetic_algorithm import GeneticAlgorithm
 
-import matplotlib.pyplot as plt
+def ler_matrizes(arquivo):
+    with open(arquivo, 'r') as f:
+        linhas = f.readlines()
 
+    matrizes = []
+    matriz_atual = []
+    tamanho_atual = None
+
+    for linha in linhas:
+        linha = linha.strip()
+        if 'x' in linha:
+            if matriz_atual:
+                matrizes.append((tamanho_atual, matriz_atual))
+                matriz_atual = []
+            tamanho_atual = linha
+        elif linha:
+            matriz_atual.append(list(map(int, linha.split())))
+
+    if matriz_atual:
+        matrizes.append((tamanho_atual, matriz_atual))
+
+    return matrizes
 
 def main():
-    # for iteration in range(1, 5):
-    T = 5 # Número de tiers
-    S = 5  # Número de stacks
-    CN = T * S - (T - 1)  # Número de Containers
-    PS = 150  # Tamanho da população
-    MP = 0.05  # Taxa de mutação
-    EN = 25  # Número de evoluções
-    SP = 10  # Tamanho do torneio
+    matrizes = ler_matrizes('matrizes.txt')
+    tempos_execucao = []
 
-    YB = [
-        [4, 18, 19, 10, 0],
-        [2, 0, 12, 13, 9],
-        [6, 11, 21, 15, 0],
-        [0, 17, 3, 14, 8],
-        [1, 0, 0, 0, 0]
-    ]
+    for tamanho, YB in matrizes:
+        T, S = map(int, tamanho.split('x'))
+        CN = T * S - (T - 1)  # Número de Containers
+        PS = 150  # Tamanho da população
+        MP = 0.05  # Taxa de mutação
+        EN = 25  # Número de evoluções
+        SP = 10  # Tamanho do torneio
 
-    # YB = [[0] * S for _ in range(T)]
-    #
-    # valores_unicos = list(range(1, CN + 1))
-    #
-    # random.shuffle(valores_unicos)
-    #
-    # indice = 0
-    # for t in range(T):
-    #     for s in range(S):
-    #         if indice < len(valores_unicos):
-    #             YB[t][s] = valores_unicos[indice]
-    #             indice += 1
-    #
-    # for i, row in enumerate(YB):
-    #     # Verifica se a linha já tem um zero
-    #     if 0 not in row:
-    #         a = random.randint(0, S - 1)
-    #         row[a] = 0
-    #
-    # for linha in YB:
-    #     print(linha)
+        ga = GeneticAlgorithm(T, S, CN, YB, PS, MP, EN, SP)
+        
+        start_time = time.time()
+        ga.run()
+        end_time = time.time()
+        
+        tempo_execucao = end_time - start_time
+        tempos_execucao.append(tempo_execucao)
+        print(f"Tamanho da matriz: {tamanho}, Tempo de execução: {tempo_execucao:.4f} segundos")
 
-    ga = GeneticAlgorithm(T, S, CN, YB, PS, MP, EN, SP)
-    chromosome, fitness = ga.run()
-
-    print("Melhor cromossomo:", chromosome)
-    print("Melhor fitness:", fitness)
-
+    # Plotar gráfico
+    tamanhos = [tamanho for tamanho, _ in matrizes]
+    plt.figure(figsize=(10, 5))
+    plt.plot(tamanhos, tempos_execucao, marker='o')
+    plt.xlabel('Tamanho da Matriz (T x S)')
+    plt.ylabel('Tempo de Execução (segundos)')
+    plt.title('Tempo de Execução do Algoritmo Genético por Tamanho da Matriz')
+    plt.grid(True)
+    plt.show()
 
 if __name__ == "__main__":
     main()
