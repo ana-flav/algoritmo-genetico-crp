@@ -32,10 +32,10 @@ def main():
     for tamanho, YB in matrizes:
         T, S = map(int, tamanho.split('x'))
         CN = T * S - (T - 1)  # Número de Containers
-        PS = 150  # Tamanho da população
+        PS = 15  # Tamanho da população
         MP = 0.05  # Taxa de mutação
-        EN = 25  # Número de evoluções
-        SP = 10  # Tamanho do torneio
+        EN = 10  # Número de evoluções
+        SP = 5  # Tamanho do torneio
 
         ga = GeneticAlgorithm(T, S, CN, YB, PS, MP, EN, SP)
         best_individuals_by_gen = []

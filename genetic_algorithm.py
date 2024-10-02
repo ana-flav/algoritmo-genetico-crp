@@ -75,17 +75,23 @@ class GeneticAlgorithm:
             # self.variances.append(variance)
 
             for i in range(crossN):
-                selected_parents = self.selection() 
-                C1_new, C2_new = self.crossover(selected_parents[0], selected_parents[1]) 
+                selected_parents = self.selection()
+                parent1 = min(selected_parents, key=lambda ind: ind.fitness)
+                selected_parents.remove(parent1)
+                parent2 = min(selected_parents, key=lambda ind: ind.fitness)
+                C1_new, C2_new = self.crossover(parent1, parent2)
                 P_estrela.append(C1_new)
                 P_estrela.append(C2_new)
-            # best = self.elitism()
-            # P_estrela.append(best)
+            best = self.elitism()
+            P_estrela.append(best)
             for i in range(self.PS):
                 self.mutate(P_estrela[i])
 
             self.population = P_estrela
+
             self.evaluate_population()
+            for i in self.population:
+                print(i.fitness)
 
             best_individual = min(self.population, key=lambda ind: ind.fitness)
             self.best_individuals_by_gen.append(best_individual.fitness)
