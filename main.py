@@ -5,11 +5,11 @@ import matplotlib.pyplot as plt
 
 def main():
     T = 4  # Número de tiers
-    S = 4  # Número de stacks
-    CN = 12  # Número de contêineres
-    PS = 100  # Tamanho da população
-    MP = 0.05  # Taxa de mutação
-    EN = 300  # Número de evoluções
+    S = 5  # Número de stacks
+    CN = T * S - (T-1)  # Número de contêineres
+    PS = 10 # Tamanho da população
+    MP = 0.05 # Taxa de mutação
+    EN = 10 # Número de evoluções
     SP = 3  # Tamanho do torneio
 
     YB = [
@@ -17,7 +17,7 @@ def main():
         [3, 8, 0, 5, 10],
         [7, 6, 0, 1, 4],
         [11, 2, 0, 14, 15]
-    ]
+    ] 
 
     ga = GeneticAlgorithm(T, S, CN, YB, PS, MP, EN, SP)
     chromosome, fitness = ga.run()
