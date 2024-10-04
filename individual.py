@@ -12,6 +12,7 @@ class Individual:
 
         YB_copy = [row[:] for row in YB]
 
+    
         for k in range(1, CN + 1):
             indT, indS = -1, -1
 
@@ -19,6 +20,7 @@ class Individual:
                 for j in range(S):
                     if YB_copy[i][j] == k:
                         indT, indS = i, j
+                        break
 
             for i in range(indT):
                 if YB_copy[i][indS] != 0:
@@ -28,20 +30,17 @@ class Individual:
 
                     while not find:
                         relS = self.chromosome[IGC]
-                        if relS != indS:
-                            if YB_copy[0][relS] == 0:
+                        if relS != indS and YB_copy[0][relS] == 0:
                                 find = True
                                 RN += 1
                                 maxT = 0
                                 IGC += 1
-                                for ii in range(T - 1, -1, -1):
+                                for ii in range(0, T-1):
                                     if YB_copy[ii][relS] == 0:
                                         maxT = ii
-                                        break
+                                        # break
                                 YB_copy[maxT][relS] = CC
                                 YB_copy[i][indS] = 0
-                            else:
-                                IGC += 1
                         else:
                             IGC += 1
 
